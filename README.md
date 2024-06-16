@@ -1,1 +1,1 @@
-This is a repository I wrote code for Atcoder.
+This is a repository I wrote code for Atcoder
