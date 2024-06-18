@@ -1,4 +1,4 @@
-#B
+#A
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
@@ -21,25 +21,12 @@ def BOARD(H): return [list(input().strip()) for _ in range(H)]
 dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
-W,B=MAP()
 
-i = "wbwbwwbwbwbw"
-S=""
-for _ in range(50):
-    S+=i
-#print(S)
 
-for i in range(0,len(S)-W-B):
-    #print(S[i:i+W+B])
-    cntw=0
-    cntb=0
-    for j in S[i:i+W+B]:
-        if j=="w":
-            cntw+=1
-        else:
-            cntb+=1
-    #print(cntb,cntw)
-    if cntw==W and cntb==B:
-        print("Yes")
-        exit()
-print("No")
+N=INT()
+A=LIST()
+B=[0]*(N-1)
+for i in range(N-1):
+    B[i]=A[i]*A[i+1]
+for i in B:
+    print(i,end=" ")
