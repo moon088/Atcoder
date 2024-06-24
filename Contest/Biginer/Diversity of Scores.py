@@ -1,4 +1,4 @@
-#C
+#D
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
@@ -22,25 +22,22 @@ def BOARD(H): return [list(input().strip()) for _ in range(H)]
 dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
-N,M,K=MAP()
-C=[]
-A=[]
-R=[]
-for i in range(M):
-    c,*a,r=MIXED_LIST()
-    C.append(c)
-    A.append(a)
-    R.append(r)
-ans=0
-for i in range(1<<N):
-    flag=True
-    for j in range(M):
-        cnt=sum(1 for k in range(C[j]) if i&(1<<A[j][k]-1))
-        if (cnt>=K and R[j]=="x") or (cnt<K and R[j]=="o"):
-            flag=False
-            break
-    if flag:
-        #print(i,j,cnt,bin(i))
-        ans+=1
-#print(i,j,cnt,bin(1<<N))
-print(ans)
+
+N,T=MAP()
+A,B=ZIP(T)
+d=defaultdict(int)
+S=[0]*N
+d[0]=N
+size=1
+for i in range(T):
+    now=S[A[i]-1]
+    d[now]-=1
+    d[now+B[i]]+=1
+    S[A[i]-1]=now+B[i]    
+    #print(S,d)
+    if d[now]!=0 and d[now+B[i]]==1:
+        size+=1
+    elif d[now]==0 and d[now+B[i]]!=1:
+        size-=1
+    print(size)
+        

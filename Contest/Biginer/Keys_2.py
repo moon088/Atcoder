@@ -22,25 +22,43 @@ def BOARD(H): return [list(input().strip()) for _ in range(H)]
 dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
+def get_input():
+    return sys.stdin.readline().rstrip()
+
+def count_valid_combinations(N, M, K, tests):
+    valid_count = 0
+
+    # 2^N通りの鍵の状態をビット全探索
+    for mask in range(1 << N):
+        valid = True
+        for keys, result in tests:
+            correct_keys = sum(1 for key in keys if mask & (1 << (key - 1)))
+            if (result == 'o' and correct_keys < K) or (result == 'x' and correct_keys >= K):
+                valid = False
+                break
+        if valid:
+            valid_count += 1
+
+    return valid_count
+
+# 入力処理
+"""
+N, M, K = map(int, get_input().split())
+tests = []
+for _ in range(M):
+    res = get_input().split()
+    C = int(res[0])
+    A = list(map(int, res[1:C+1]))
+    R = res[-1]
+    tests.append((A, R))
+
+# 結果の表示
+"""
 N,M,K=MAP()
 C=[]
-A=[]
-R=[]
+tests=[]
 for i in range(M):
     c,*a,r=MIXED_LIST()
     C.append(c)
-    A.append(a)
-    R.append(r)
-ans=0
-for i in range(1<<N):
-    flag=True
-    for j in range(M):
-        cnt=sum(1 for k in range(C[j]) if i&(1<<A[j][k]-1))
-        if (cnt>=K and R[j]=="x") or (cnt<K and R[j]=="o"):
-            flag=False
-            break
-    if flag:
-        #print(i,j,cnt,bin(i))
-        ans+=1
-#print(i,j,cnt,bin(1<<N))
-print(ans)
+    tests.append((a,r))
+print(count_valid_combinations(N, M, K, tests))

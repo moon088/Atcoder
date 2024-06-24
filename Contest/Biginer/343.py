@@ -22,25 +22,32 @@ def BOARD(H): return [list(input().strip()) for _ in range(H)]
 dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
-N,M,K=MAP()
-C=[]
-A=[]
-R=[]
-for i in range(M):
-    c,*a,r=MIXED_LIST()
-    C.append(c)
-    A.append(a)
-    R.append(r)
-ans=0
-for i in range(1<<N):
+N=INT()
+
+def is_cube(num):
+    cube_root = round(num**(1/3))
+    return cube_root ** 3==num,cube_root
+
+def search_root(num):
+    for i in range(num,-1,-1):
+        result=is_cube(i)
+        if result[0]:
+            return result[1]
+    return False
+
+k=1
+while k**3 <=N:
+    num=k**3
+    digit = [int(d) for d in str(num)]
     flag=True
-    for j in range(M):
-        cnt=sum(1 for k in range(C[j]) if i&(1<<A[j][k]-1))
-        if (cnt>=K and R[j]=="x") or (cnt<K and R[j]=="o"):
+    for j in range(len(digit)//2):
+        if digit[j]==digit[len(digit)-j-1]:
+            continue
+        else:
             flag=False
             break
     if flag:
-        #print(i,j,cnt,bin(i))
-        ans+=1
-#print(i,j,cnt,bin(1<<N))
-print(ans)
+        temp=num
+    k+=1
+print(temp)
+
