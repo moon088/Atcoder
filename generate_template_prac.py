@@ -1,7 +1,7 @@
 import os
 import sys
 
-default_output_directory = 'AtCoder/Working'
+default_output_directory = 'AtCoder\Working'
 num_files_to_generate = 1  # 生成するファイルの個数（デフォルトは4個）
 output_directory = default_output_directory
 
@@ -12,7 +12,7 @@ if len(sys.argv) == 3:
     output_directory = sys.argv[2]
 
 # テンプレートファイルのパス
-template_path = 'AtCoder/Template.py'
+template_path = 'AtCoder\Template.py'
 
 # 標準入力からファイル名とコメントの入力を受け取る
 files = []
