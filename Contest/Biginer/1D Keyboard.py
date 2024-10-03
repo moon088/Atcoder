@@ -1,4 +1,4 @@
-# D
+# B
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
@@ -32,24 +32,25 @@ def NO(): return print("No")
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
-N=INT()
-H=LIST()
-down = deque([])
-ans = []
+S=input()
+#65~90
+def make_cnt(now, cnt):
+    for i in range(len(S)):
+        if ord(S[i])==cnt+65:
+            return abs(now-i), i
+    
+    
 
-for i in range(N-1,-1,-1):
-   # print(down)
-    ans.append(len(down))
-    if not ans:
-        down.append(H[i])
-        continue
-    temp = H[i]
-    while down:
-        top = down.pop()  
-        if temp < top:
-            down.append(top)
-            break
-    down.append(temp)
-
-for i in range(N-1,-1,-1):
-    print(ans[i],end=" ")
+#print(ord(S[-1]))
+cnt=0
+for i in range(len(S)):
+    if S[i]=="A":
+        now=i
+        break
+    
+ans=0
+while cnt<26:
+    temp, now= make_cnt(now, cnt)
+    ans+=temp
+    cnt+=1
+print(ans)

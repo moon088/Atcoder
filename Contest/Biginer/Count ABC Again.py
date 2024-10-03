@@ -1,4 +1,4 @@
-# D
+# C
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
@@ -32,24 +32,44 @@ def NO(): return print("No")
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
-N=INT()
-H=LIST()
-down = deque([])
-ans = []
+N,Q=MAP()
+S=list(input())
 
-for i in range(N-1,-1,-1):
-   # print(down)
-    ans.append(len(down))
-    if not ans:
-        down.append(H[i])
+cnt=0
+for i in range(2,N):
+    if S[i-2]=="A" and S[i-1]=="B" and S[i]=="C":
+        cnt+=1
+        
+for i in range(Q):
+    X,c=input().split()
+    x = int(X)-1
+    #print(x)
+    if S[x] == c:
+        print(cnt)
         continue
-    temp = H[i]
-    while down:
-        top = down.pop()  
-        if temp < top:
-            down.append(top)
-            break
-    down.append(temp)
-
-for i in range(N-1,-1,-1):
-    print(ans[i],end=" ")
+    elif S[x]=="A":
+        if x<=N-3 and S[x+1]=="B" and S[x+2]=="C":
+            cnt-=1
+            
+    elif S[x]=="B":
+        if 1<=x and x<=N-2 and S[x-1]=="A" and S[x+1]=="C":
+            cnt-=1
+    
+    elif S[x]=="C":
+        if 2<=x and S[x-2]=="A" and S[x-1]=="B":
+            cnt-=1
+    
+    S[x]=c
+    if S[x]=="A":
+        if x<=N-3 and S[x+1]=="B" and S[x+2]=="C":
+            cnt+=1
+            
+    elif S[x]=="B":
+        if 1<=x and x<=N-2 and S[x-1]=="A" and S[x+1]=="C":
+            cnt+=1
+    
+    elif S[x]=="C":
+        if 2<=x and S[x-2]=="A" and S[x-1]=="B":
+            cnt+=1   
+      
+    print(cnt)

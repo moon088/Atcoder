@@ -32,24 +32,19 @@ def NO(): return print("No")
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
-N=INT()
-H=LIST()
-down = deque([])
-ans = []
+N,M=MAP()
+A=LIST()
 
-for i in range(N-1,-1,-1):
-   # print(down)
-    ans.append(len(down))
-    if not ans:
-        down.append(H[i])
-        continue
-    temp = H[i]
-    while down:
-        top = down.pop()  
-        if temp < top:
-            down.append(top)
-            break
-    down.append(temp)
+acc = list(accumulate(A))
+acc_mod = [0]+[i%M for i in acc]
+d = defaultdict(int)
 
-for i in range(N-1,-1,-1):
-    print(ans[i],end=" ")
+ans=0
+L=acc_mod[-1]
+for r in range(N):
+    Sr = acc_mod[r]
+    ans+=d[Sr]
+    ans+=d[(Sr-L)%M]
+   # print(ans)
+    d[Sr]+=1
+print(ans)

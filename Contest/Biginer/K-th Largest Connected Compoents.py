@@ -1,4 +1,4 @@
-# D
+# E
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
@@ -11,6 +11,7 @@ from string import ascii_lowercase, ascii_uppercase, digits
 from bisect import bisect, bisect_left, insort, insort_left
 from heapq import heappush , heappop
 from functools import reduce, lru_cache
+from sortedcontainers import SortedSet
 #it is code to make recursion a bit faster
 #Pimport pypyjit
 #pypyjit.set_param("max_unroll_recursion=-1")
@@ -32,24 +33,63 @@ def NO(): return print("No")
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
-N=INT()
-H=LIST()
-down = deque([])
-ans = []
 
-for i in range(N-1,-1,-1):
-   # print(down)
-    ans.append(len(down))
-    if not ans:
-        down.append(H[i])
-        continue
-    temp = H[i]
-    while down:
-        top = down.pop()  
-        if temp < top:
-            down.append(top)
-            break
-    down.append(temp)
+class UnionFind():
+  def __init__(self, n):
+    self.n = n
+    self.parents = [-1] * n #-5なら要素5こ持つ根
+    self.member = [[i] for i in range(n)]
 
-for i in range(N-1,-1,-1):
-    print(ans[i],end=" ")
+#要素x が属するグループの根を返す
+  def find(self, x):
+    if self.parents[x] < 0:
+      return x
+    else:
+      self.parents[x] = self.find(self.parents[x])
+      return self.parents[x]
+
+  #xとyが属するグループの併合
+  def union(self, x, y):
+    x = self.find(x)
+    y = self.find(y)
+
+    if x == y:
+      return
+
+    if self.parents[x] > self.parents[y]:
+      x, y = y, x
+    self.parents[x] += self.parents[y]
+    self.parents[y] = x
+    self.member[x] += self.member[y]
+    self.member[x] = sorted(self.member[x], reverse=True)[:10]
+    
+
+
+N,Q=MAP()
+uf = UnionFind(N)
+
+for i in range(Q):
+    f, u, v=MAP()
+    #print(uf.member[u-1])
+    if f==1:
+        u-=1
+        v-=1
+        uf.union(u,v)
+    else:
+        u-=1
+        u = uf.find(u)
+        #print(u)
+        mem = uf.member[u]
+       # print(mem)
+        s_len = len(mem)
+        #print("s:",s)
+        if s_len<v:
+            print(-1)
+        else:
+            #print(member)
+            print(mem[v-1]+1)
+
+
+
+
+  

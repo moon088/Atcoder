@@ -33,23 +33,18 @@ Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 N=INT()
-H=LIST()
-down = deque([])
-ans = []
+X=LIST()
+P=LIST()
+Q=INT()
+L,R=ZIP(Q)
 
-for i in range(N-1,-1,-1):
-   # print(down)
-    ans.append(len(down))
-    if not ans:
-        down.append(H[i])
-        continue
-    temp = H[i]
-    while down:
-        top = down.pop()  
-        if temp < top:
-            down.append(top)
-            break
-    down.append(temp)
+acc = [0] + list(accumulate(P))
+#print(acc)
 
-for i in range(N-1,-1,-1):
-    print(ans[i],end=" ")
+for i in range(Q):
+    l=L[i]
+    r=R[i]
+    lidx = bisect_left(X,l)
+    ridx = bisect(X,r)
+   # print(lidx, ridx)
+    print(acc[ridx] - acc[lidx])

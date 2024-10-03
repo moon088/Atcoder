@@ -1,4 +1,4 @@
-# D
+# C
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
@@ -33,23 +33,47 @@ Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 N=INT()
-H=LIST()
-down = deque([])
-ans = []
+Mg=INT()
+graphg=[[False]*N for _ in range(N)]
+graphh=[[False]*N for _ in range(N)]
 
-for i in range(N-1,-1,-1):
-   # print(down)
-    ans.append(len(down))
-    if not ans:
-        down.append(H[i])
-        continue
-    temp = H[i]
-    while down:
-        top = down.pop()  
-        if temp < top:
-            down.append(top)
-            break
-    down.append(temp)
+for i in range(Mg):
+    v1, v2 = MAP()
+    v1-=1
+    v2-=1
+    graphg[v1][v2]=True
+    graphg[v2][v1]=True
 
-for i in range(N-1,-1,-1):
-    print(ans[i],end=" ")
+Mh=INT()
+for i in range(Mh):
+    v1, v2 = MAP()
+    v1-=1
+    v2-=1
+    graphh[v1][v2]=True
+    graphh[v2][v1]=True
+
+A=[]
+A = [[0] * N for _ in range(N)]
+for i in range(N - 1):
+    a=MAP()
+    for j, aj in enumerate(a, i + 1):
+        A[i][j] = A[j][i] = aj
+#print(A)
+
+#print(graphg,graphh,A)
+
+
+def calc(p):
+    res = 0
+    for i in range(N):
+        for j in range(i):
+            if graphg[i][j] != graphh[p[i]][p[j]]:
+                res += A[p[i]][p[j]]
+
+    return res
+
+ans = INF
+for p in permutations(range(N)):
+    ans = min(ans, calc(p))
+
+print(ans)

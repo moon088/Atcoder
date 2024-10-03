@@ -1,4 +1,4 @@
-# D
+# A
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
@@ -32,24 +32,15 @@ def NO(): return print("No")
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
-N=INT()
-H=LIST()
-down = deque([])
-ans = []
+S=input().split()
 
-for i in range(N-1,-1,-1):
-   # print(down)
-    ans.append(len(down))
-    if not ans:
-        down.append(H[i])
-        continue
-    temp = H[i]
-    while down:
-        top = down.pop()  
-        if temp < top:
-            down.append(top)
-            break
-    down.append(temp)
-
-for i in range(N-1,-1,-1):
-    print(ans[i],end=" ")
+if S[0]=="<":
+    if S[1]=="<":
+        print("B") if S[2]=="<" else print("C")
+    else:
+        print("A")
+else:
+    if S[1]=="<":
+        print("A")
+    else:
+        print("B") if S[2]==">" else print("C")
