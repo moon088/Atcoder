@@ -1,7 +1,7 @@
-# B
+# C
 import sys, re
 from collections import deque, defaultdict, Counter
-from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
+from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
 from cmath import phase
 from itertools import accumulate, chain, combinations, combinations_with_replacement, permutations, compress, dropwhile, takewhile, groupby, product, starmap
 from functools import cmp_to_key,lru_cache
@@ -37,18 +37,21 @@ Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
-N=INT()
-S=[]
-for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
-for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+N,K=MAP()
+l=[]
+A=LIST()
+B=LIST()
+l.append(A); l.append(B)
+
+dp = [[False]*2 for _ in range(N)]
+dp[0][0]=True; dp[0][1]=True
+
+for i in range(N-1):
+    for j in range(2):
+        if not  dp[i][j]: continue
+        if abs(l[j][i]- l[0][i+1])<=K:
+            dp[i+1][0]=True
+        if abs(l[j][i]- l[1][i+1])<=K:
+            dp[i+1][1]=True
+            
+YES() if dp[-1][0] or dp[-1][1] else NO()

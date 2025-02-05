@@ -33,22 +33,26 @@ def isInBoard(H,W,y,x): return 0<=y<H and 0<=x<W
 def ROUND_OFF(X,k): return  (X // (10 ** k) + 5) // 10 * 10 ** (k + 1)
 def YES(): return print("Yes")
 def NO(): return print("No")
+alph = 'abcdefghijklmnopqrstuvwxyz'
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
 N=INT()
-S=[]
+deg = [0]*N
+for i in range(N-1):
+    a,b=MAP(); a-=1; b-=1
+    deg[a]+=1; deg[b]+=1
+
+f=False
 for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
-for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+    if deg[i]==1:   continue
+    if deg[i]>1 and f:
+        NO()
+        exit()
+    elif deg[i]>1:
+        f=True
+if f:
+    YES()
+else:
+    NO()

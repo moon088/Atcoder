@@ -1,4 +1,4 @@
-# B
+# C
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
@@ -33,22 +33,29 @@ def isInBoard(H,W,y,x): return 0<=y<H and 0<=x<W
 def ROUND_OFF(X,k): return  (X // (10 ** k) + 5) // 10 * 10 ** (k + 1)
 def YES(): return print("Yes")
 def NO(): return print("No")
+alph = 'abcdefghijklmnopqrstuvwxyz'
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
-N=INT()
-S=[]
+N,W=MAP()
+
+zairyou = []
 for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
-for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+    a,b=MAP()
+    zairyou.append((a,b))
+zairyou.sort()
+
+now = 0
+val = 0
+
+for i in range(N-1,-1,-1):
+    a,b=zairyou[i][0], zairyou[i][1]
+    if b+now<W:
+        now += b
+        val += a*b
+    else:
+        use = W-now
+        val += use*a
+        break
+print(val)

@@ -1,4 +1,4 @@
-# B
+# D
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
@@ -33,22 +33,53 @@ def isInBoard(H,W,y,x): return 0<=y<H and 0<=x<W
 def ROUND_OFF(X,k): return  (X // (10 ** k) + 5) // 10 * 10 ** (k + 1)
 def YES(): return print("Yes")
 def NO(): return print("No")
+alph = 'abcdefghijklmnopqrstuvwxyz'
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
 N=INT()
-S=[]
+A,B=ZIP(N)
+haba = []
 for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
+    haba.append((A[i],B[i]+A[i]-1))
+haba.sort()
+now = SortedList([])
+nownum = None
+nowcnt = 0
+ans = [0]*(N+1)
+
+#print(haba)
 for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+    #print(now, nownum, nowcnt, ans)
+    nowL = haba[i][0]
+    while now and now[0]<nowL:
+        #print(13414,now, nownum, nowcnt, ans)
+        temp = now.pop(0)
+        ans[nowcnt] += (temp-nownum+1)
+        nowcnt -=1
+        nownum = temp+1
+    
+    if nownum is not None:
+       # print(now, nownum, nowcnt, ans)
+        if haba[i][0] == nownum:
+            nowcnt += 1
+            now.add(haba[i][1])
+        else:
+            ans[nowcnt] += haba[i][0] - nownum
+            nownum = haba[i][0]
+            now.add(haba[i][1])
+            nowcnt += 1
+    else:
+        nowcnt+=1
+        now.add(haba[i][1])
+        nownum = haba[i][0]
+#print(now, nownum, nowcnt, ans)
+while now:
+    #print(13414,now, nownum, nowcnt, ans)
+    temp = now.pop(0)
+    ans[nowcnt] += (temp-nownum+1)
+    nowcnt -=1
+    nownum = temp+1
+
+print(*ans[1:])

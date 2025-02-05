@@ -1,4 +1,4 @@
-# B
+# D
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
@@ -36,19 +36,44 @@ def NO(): return print("No")
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
+        
+N,M=MAP()
+G = [[] for _ in range(N)]
+if M==0:
+    YES(); exit()
+deg = [0] * N 
+for _ in range(M):
+    a, b = MAP()
+    a -= 1 
+    b -= 1
+    G[a].append(b)
+    G[b].append(a)
+    deg[a] += 1
+    deg[b] += 1
 
-N=INT()
-S=[]
 for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
+    if deg[i]>=3:
+        NO()
+        exit()
+
+que = deque()
+for v in range(N):
+    if deg[v] == 1:
+        que.append(v)
+
+ispushed = [False] * N
+while que:
+    v = que.popleft()
+    ispushed[v] = True
+    for nv in G[v]:
+        deg[nv] -= 1
+        if deg[nv] == 1:
+            que.append(nv)
+#print(ispushed)
 for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+    if ispushed[i] or deg[i]==0:
+        continue
+    else:
+        NO()
+        exit()
+YES()

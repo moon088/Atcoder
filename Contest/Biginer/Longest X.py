@@ -1,4 +1,4 @@
-# B
+# D
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
@@ -33,22 +33,36 @@ def isInBoard(H,W,y,x): return 0<=y<H and 0<=x<W
 def ROUND_OFF(X,k): return  (X // (10 ** k) + 5) // 10 * 10 ** (k + 1)
 def YES(): return print("Yes")
 def NO(): return print("No")
+alph = 'abcdefghijklmnopqrstuvwxyz'
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
-N=INT()
-S=[]
-for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
-for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+S=input()
+K=INT()
+
+if S.count(".")<=K:
+    print(len(S))
+    exit()
+
+s = 0
+ans=0
+xcnt=0
+umekomi = 0
+for g in range(1, len(S)+1):
+    if S[g-1]==".":
+        umekomi +=1
+    else:
+        xcnt += 1
+    
+    
+    while s<g and umekomi>K:
+        if S[s]=="X":
+            xcnt-=1
+        else:
+            umekomi-=1
+        s+=1
+    #print(s,g,xcnt,umekomi)
+    if umekomi<=K:
+        ans = max(ans, g-s)
+print(ans)

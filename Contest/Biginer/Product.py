@@ -1,4 +1,4 @@
-# B
+# C
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
@@ -37,18 +37,15 @@ Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
-N=INT()
-S=[]
+N,X=MAP()
+l = []
+A = []
 for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
-for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+    L, *a = MAP()
+    l.append(L)
+    A.append(a)
+cnt=0
+for comb in product(*A):
+    if X == prod(comb):
+        cnt+=1
+print(cnt)

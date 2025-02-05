@@ -1,7 +1,7 @@
-# B
+# D
 import sys, re
 from collections import deque, defaultdict, Counter
-from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
+from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
 from cmath import phase
 from itertools import accumulate, chain, combinations, combinations_with_replacement, permutations, compress, dropwhile, takewhile, groupby, product, starmap
 from functools import cmp_to_key,lru_cache
@@ -38,17 +38,22 @@ INF = 1 << 60
 
 
 N=INT()
-S=[]
-for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
-for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+b = 0
+while b**3<N:
+    b+=1
+#print(b, b**3)
+g = b
+
+
+a = 0; b=g
+ans = g**3
+
+while 0<=a<=b:
+   # print(a,b,ans)
+    b-=1
+    while a<=b and (a+b)*(a**2+b**2)<N:
+       # print(a,b,1324,ans)
+        a+=1
+    if (a+b)*(a**2+b**2)>=N:    
+        ans = min(ans, (a+b)*(a**2+b**2))
+print(ans)

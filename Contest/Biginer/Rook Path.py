@@ -1,7 +1,7 @@
-# B
+# E
 import sys, re
 from collections import deque, defaultdict, Counter
-from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
+from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
 from cmath import phase
 from itertools import accumulate, chain, combinations, combinations_with_replacement, permutations, compress, dropwhile, takewhile, groupby, product, starmap
 from functools import cmp_to_key,lru_cache
@@ -36,19 +36,44 @@ def NO(): return print("No")
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
+MOD = 998244353
+W,H,K=MAP()
+x1,y1,x2,y2 = MAP()
+dp = [0,0,0,0] #samey,samex,notsamexy, samexy
 
-N=INT()
-S=[]
-for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
-for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+if x1==x2 and y1==y2:
+    dp[3] = 1
+elif x1==x2:
+    dp[1]=1
+elif y1==y2:
+    dp[0]=1
+else:
+    dp[2]=1
+for i in range(K):
+    ndp = [0,0,0,0]
+    #print(dp)
+    for j in range(4):
+        if j==0:
+            ndp[0] += (W-2)*dp[0]
+            ndp[1] += 0
+            ndp[2] += (H-1)*dp[0]
+            ndp[3] += 1*dp[0]
+        elif j==1:
+            ndp[0] += 0
+            ndp[1] += (H-2)*dp[1]
+            ndp[2] += (W-1)*dp[1]
+            ndp[3] += 1*dp[1]
+        elif j==2:
+            ndp[0] += 1*dp[2]
+            ndp[1] += 1*dp[2]
+            ndp[2] += (H+W-4)*dp[2]
+            ndp[3] += 0
+        else:
+            ndp[0] += (W-1)*dp[3]
+            ndp[1] += (H-1)*dp[3]
+            ndp[2] += 0
+            ndp[3] += 0
+        ndp[0]%=MOD; ndp[1]%=MOD; ndp[2]%=MOD; ndp[3]%=MOD
+    dp = ndp
+#print(dp)
+print(dp[3]%MOD)

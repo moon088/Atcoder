@@ -1,4 +1,4 @@
-# B
+# C
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
@@ -33,22 +33,23 @@ def isInBoard(H,W,y,x): return 0<=y<H and 0<=x<W
 def ROUND_OFF(X,k): return  (X // (10 ** k) + 5) // 10 * 10 ** (k + 1)
 def YES(): return print("Yes")
 def NO(): return print("No")
+alph = 'abcdefghijklmnopqrstuvwxyz'
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
-N=INT()
-S=[]
+N,K=MAP()
+P=BOARD_INT(N)
+tensuu = []
 for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
+    tensuu.append(sum(P[i]))
+so = sorted(tensuu)
+
+#print(tensuu, so)
+boarder = so[-K]
 for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+    now = tensuu[i]
+    if boarder>now+300:
+        NO()
+    else:
+        YES()

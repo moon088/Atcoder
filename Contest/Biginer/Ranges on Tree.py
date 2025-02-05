@@ -1,7 +1,7 @@
-# B
+# E
 import sys, re
 from collections import deque, defaultdict, Counter
-from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
+from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
 from cmath import phase
 from itertools import accumulate, chain, combinations, combinations_with_replacement, permutations, compress, dropwhile, takewhile, groupby, product, starmap
 from functools import cmp_to_key,lru_cache
@@ -38,17 +38,33 @@ INF = 1 << 60
 
 
 N=INT()
-S=[]
+g = [[] for _ in range(N)]
+for i in range(N-1):
+    u,v=MAP(); u-=1; v-=1
+    g[u].append(v); g[v].append(u)
+
+deg = [len(g[i]) for i in range(N)]
+leafnum = 1
+visited = [False]*N; visited[0]=True
+ans = [[None,None] for _ in range(N)]
+
+
+def dfs(now):
+    global leafnum, visited
+
+    if deg[now]==1 and now!=0:
+        ans[now] = [leafnum, leafnum]
+        leafnum += 1
+        return
+    ans[now][0] = leafnum
+    
+    for near in g[now]:
+        if visited[near]: continue
+        visited[near]=True
+        dfs(near)
+    if ans[now][1] is None:
+        ans[now][1] = leafnum-1
+    return 
+dfs(0)      
 for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
-for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+    print(*ans[i])

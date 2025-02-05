@@ -1,7 +1,7 @@
-# B
+# E
 import sys, re
 from collections import deque, defaultdict, Counter
-from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
+from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
 from cmath import phase
 from itertools import accumulate, chain, combinations, combinations_with_replacement, permutations, compress, dropwhile, takewhile, groupby, product, starmap
 from functools import cmp_to_key,lru_cache
@@ -37,18 +37,42 @@ Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
-N=INT()
-S=[]
+N,X,Y=MAP()
+A=LIST()
+
+minf = None; maxf = None
+idx = -1
+ans = 0
 for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
-for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+    print(i, minf, maxf, idx, ans)
+    if A[i]<Y:
+        if minf is not None and maxf is not None:
+            ans += (min(minf, maxf) - idx) * (i-max(minf, maxf))
+            print(ans)
+            
+        idx = i
+        minf = None; maxf = None
+    
+    if A[i]>X:
+        if minf is not None and maxf is not None:
+            ans += (min(minf, maxf) - idx) * (i-max(minf, maxf))
+            print(ans)
+        
+        idx = i
+        maxf = None; minf = None
+    
+    if A[i]==X:
+        if minf is not None and maxf is not None:
+            ans += (min(minf, maxf) - idx) * (i-max(minf, maxf)) 
+        maxf = i
+    if A[i]==Y:
+        if minf is not None and maxf is not None:
+            ans += (min(minf, maxf) - idx) * (i-max(minf, maxf)) 
+        minf = i
+        
+    
+print(i, minf, maxf,idx, ans)
+if minf is not None and maxf is not None:
+    ans += (min(minf, maxf) - idx) * (N-max(minf, maxf))
+    
+print(ans)

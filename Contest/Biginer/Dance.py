@@ -1,7 +1,7 @@
-# B
+# D
 import sys, re
 from collections import deque, defaultdict, Counter
-from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
+from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
 from cmath import phase
 from itertools import accumulate, chain, combinations, combinations_with_replacement, permutations, compress, dropwhile, takewhile, groupby, product, starmap
 from functools import cmp_to_key,lru_cache
@@ -38,17 +38,35 @@ INF = 1 << 60
 
 
 N=INT()
-S=[]
-for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
-for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+A=[[None]*(2*N) for _ in range(2*N)]
+for i in range(2*N-1):
+    a=LIST()
+    f=False
+    j=0
+    A[i][i] = 0
+    while j<2*N-i-1:
+        A[i][j+i+1] = a[j]
+        A[j+i+1][i] = a[j]
+        j+=1
+A[-1][-1]=0
+
+ans = 0
+
+def make(s, nowval):
+    global ans
+    #print(s,ans,nowval)
+    mi = min(s)
+    s.remove(mi)
+    if len(s)==1:
+        final = s.pop()
+        ans = max(ans, nowval^A[mi][final])
+        return 
+
+    for next in s:
+        nextval = nowval^A[mi][next]
+        a = make(s-{next}, nextval)
+
+
+make({i for i in range(2*N)}, 0)
+print(ans) if N>1 else print(A[0][1])
+

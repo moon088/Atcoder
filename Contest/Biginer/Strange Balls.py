@@ -1,7 +1,7 @@
-# B
+# D
 import sys, re
 from collections import deque, defaultdict, Counter
-from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
+from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
 from cmath import phase
 from itertools import accumulate, chain, combinations, combinations_with_replacement, permutations, compress, dropwhile, takewhile, groupby, product, starmap
 from functools import cmp_to_key,lru_cache
@@ -38,17 +38,33 @@ INF = 1 << 60
 
 
 N=INT()
-S=[]
+a=LIST()
+
+lastnum = None
+lastcnt=0
+now = 0
+q = deque([])
+
 for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
-for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+    if a[i]==lastnum:
+        now+=1
+        lastcnt+=1
+        q.append((lastnum, lastcnt))
+        if lastcnt==lastnum:
+            now-=lastnum
+            for _ in range(lastnum):
+                q.pop()
+            if q:
+                temp = q.pop()
+                lastnum=temp[0]
+                lastcnt = temp[1]
+                q.append(temp)
+            else:
+                lastnum=None
+                lastcnt=0
+    else:
+        now+=1
+        lastnum = a[i]
+        lastcnt=1
+        q.append((a[i], 1))
+    print(now)

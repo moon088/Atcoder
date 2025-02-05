@@ -1,7 +1,7 @@
-# B
+# E
 import sys, re
 from collections import deque, defaultdict, Counter
-from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
+from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
 from cmath import phase
 from itertools import accumulate, chain, combinations, combinations_with_replacement, permutations, compress, dropwhile, takewhile, groupby, product, starmap
 from functools import cmp_to_key,lru_cache
@@ -37,18 +37,44 @@ Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
-N=INT()
-S=[]
+N,M=MAP()
+H=LIST()
+g = [[] for _ in range(N)]
+
+for i in range(M):
+    u,v=MAP(); u-=1; v-=1
+    if H[u]<=H[v]:
+        g[v].append((u,0))
+        g[u].append((v,abs(H[u]-H[v])))
+    else:
+        g[u].append((v,0))
+        g[v].append((u,abs(H[u]-H[v])))
+
+
+
+def dijkstra(n, g, i0=0):
+    kk = 18
+    mm = (1 << kk) - 1
+    h = [(0,0)]
+    D = [-1] * n
+    visited = [0] * n
+    D[i0] = 0
+    while h:
+        d, now = heappop(h)
+        if visited[now]: continue
+        visited[i] = 1
+        for near, cost in g[now]:
+            nd = d + cost
+            if D[near] < 0 or D[near] > nd:
+                if visited[near] == 0:
+                    heappush(h, (near, nd))
+                    D[near] = nd
+    return D
+
+
+
+D = dijkstra(N, g)
+ans = -INF
 for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
-for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+    ans = max(ans, (H[0] - H[i]) - D[i])
+print(ans)

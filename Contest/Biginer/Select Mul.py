@@ -1,4 +1,4 @@
-# B
+# C
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
@@ -33,22 +33,22 @@ def isInBoard(H,W,y,x): return 0<=y<H and 0<=x<W
 def ROUND_OFF(X,k): return  (X // (10 ** k) + 5) // 10 * 10 ** (k + 1)
 def YES(): return print("Yes")
 def NO(): return print("No")
+alph = 'abcdefghijklmnopqrstuvwxyz'
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
-N=INT()
-S=[]
-for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
-for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+N=str(INT())
+ans = 0
+for per in permutations(range(len(str(N))), len(str(N))):
+    if N[per[0]]=="0":
+        continue
+    temp = ""
+    for k in range(len(N)):
+        temp += N[per[k]]
+    for j in range(1,len(N)):
+        if temp[j]=="0": continue
+        a, b = temp[:j], temp[j:]
+        #print(a,b)
+        ans = max(ans, int(a)*int(b))
+print(ans)

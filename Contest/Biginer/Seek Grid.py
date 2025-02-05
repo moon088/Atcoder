@@ -1,7 +1,7 @@
 # B
 import sys, re
 from collections import deque, defaultdict, Counter
-from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
+from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
 from cmath import phase
 from itertools import accumulate, chain, combinations, combinations_with_replacement, permutations, compress, dropwhile, takewhile, groupby, product, starmap
 from functools import cmp_to_key,lru_cache
@@ -37,18 +37,21 @@ Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
-N=INT()
-S=[]
-for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
-for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+N,M=MAP()
+S=BOARD(N)
+T=BOARD(M)
+
+for i in range(N-M+1):
+    for j in range(N-M+1):
+       # print( S[i:i+M][j:j+M])
+        f=True
+        for k in range(i,i+M):
+            for l in range(j,j+M):
+                if S[k][l]==T[k-i][l-j]:
+                    continue
+                else:
+                    f=False
+        if f:
+            print(i+1,j+1)
+            
+            

@@ -1,7 +1,7 @@
-# B
+# E
 import sys, re
 from collections import deque, defaultdict, Counter
-from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
+from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
 from cmath import phase
 from itertools import accumulate, chain, combinations, combinations_with_replacement, permutations, compress, dropwhile, takewhile, groupby, product, starmap
 from functools import cmp_to_key,lru_cache
@@ -36,19 +36,25 @@ def NO(): return print("No")
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
+MOD= 998244353
+N,M,K,S,T,X=MAP(); S-=1; T-=1; X-=1
+g = [[] for _ in range(N)]
+for i in range(M):
+    u,v=MAP(); u-=1; v-=1
+    g[u].append(v); g[v].append(u)
 
-N=INT()
-S=[]
-for i in range(N):
-    s=input()
-    S.append(s)
-d = defaultdict(int)
-for i in range(N):
-    d[S[i]]+=1
-ma = 0
-name=None
-for i in d:
-    if d[i]>=ma:
-        ma = d[i]
-        name = i
-print(name)
+
+dp = [[[0]*N for _ in range(2)] for _ in range(K+1)]
+dp[0][0][S]=1
+
+for i in range(K):
+    for j in range(2):
+        for k in range(N):
+            now = dp[i][j][k]
+            for near in g[k]:
+                if i!=K-1 and near==X:
+                    dp[i+1][(j+1)%2][near] = (dp[i+1][(j+1)%2][near]+now)%MOD
+                else:
+                    dp[i+1][j][near] = (dp[i+1][j][near]+now)%MOD
+#print(dp)
+print(dp[-1][0][T])
