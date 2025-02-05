@@ -1,4 +1,4 @@
-# E
+# D
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
@@ -35,27 +35,81 @@ Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
+class UnionFind():
+  def __init__(self, n):
+    self.n = n
+    self.parents = [-1] * n #-5なら要素5こ持つ根
+    self.node = [0]*n
+
+#要素x が属するグループの根を返す
+  def find(self, x):
+    if self.parents[x] < 0:
+      return x
+    else:
+      self.parents[x] = self.find(self.parents[x])
+      return self.parents[x]
+
+  #xとyが属するグループの併合
+  def union(self, x, y):
+    x = self.find(x)
+    y = self.find(y)
+
+   
+
+    if self.parents[x] > self.parents[y]:
+      x, y = y, x
+    self.node[x]+=1
+    if x==y:
+        return
+    self.node[x] += self.node[y]
+    self.parents[x] += self.parents[y]
+    self.parents[y] = x
+
+  #グループのサイズ返す
+  def size(self, x):
+      return -self.parents[self.find(x)]
+
+  #xとyが同じグループに属するかどうか
+  def same(self, x, y):
+    return self.find(x) == self.find(y)
+
+  #xが属するグループのリスト
+  def members(self, x):
+    root = self.find(x)
+    return [i for i in range(self.n) if self.find(i) == root]
+
+  #すべての根のリスト
+  def roots(self):
+    return [i for i, x in enumerate(self.parents) if x < 0]
+
+  #グループ数
+  def group_count(self):
+    return len(self.roots())
+
+  def all_group_members(self):
+    group_members = defaultdict(list)
+    for member in range(self.n):
+      group_members[self.find(member)].append(member)
+    return group_members
+
+  #printでの表示用
+  def __str__(self):
+    return '\n'.join(f'{r}: {m}' for r, m in self.all_group_members().items())
+
+
 N,M=MAP()
-g = [[] for _ in range(N)]
+board = [[] for _ in range(N)]
+uf = UnionFind(N)
 for i in range(M):
     u,v=MAP(); u-=1; v-=1
-    g[u].append(v); g[v].append(u)
+    uf.union(u,v)
 
-ans = 0
-q = [0]
-visited = [False]*N; visited[0]=True
+#print(uf.node)
 
-def DFS(now):
-    global ans
-    ans += 1
-    if ans>10**6:
-        print(10**6)
+for i in range(N):
+    if uf.size(i)==uf.node[uf.find(i)]:
+        continue
+    else:
+        NO()
         exit()
-    for near in g[now]:
-        if visited[near]: continue
-        visited[near]=True
-        DFS(near)
-        visited[near]=False
-        
-DFS(0)
-print(ans)
+YES()

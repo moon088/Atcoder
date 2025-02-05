@@ -1,4 +1,4 @@
-# E
+# C
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
@@ -31,31 +31,30 @@ def BOARD_INT(H): return [list(map(int, input().split())) for _ in range(H)]
 def isInBoard(H,W,y,x): return 0<=y<H and 0<=x<W
 def YES(): return print("Yes")
 def NO(): return print("No")
-Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
+Dxy = [(1,0),(0,1)]
 INF = 1 << 60
 
+def tansaku(per):
+    #print(per)
+    s = {A[0][0]}
+    now=[0,0]
+    for i in range(H+W-2):
+        if i in per:
+            now[0]+=1
+            s.add(A[now[0]][now[1]])
+        else:
+            now[1]+=1
+            s.add(A[now[0]][now[1]])
+    #print(per,s)
+    return len(s)==H+W-1
 
-N,M=MAP()
-g = [[] for _ in range(N)]
-for i in range(M):
-    u,v=MAP(); u-=1; v-=1
-    g[u].append(v); g[v].append(u)
 
-ans = 0
-q = [0]
-visited = [False]*N; visited[0]=True
+H,W=MAP()
+A=BOARD_INT(H)
 
-def DFS(now):
-    global ans
-    ans += 1
-    if ans>10**6:
-        print(10**6)
-        exit()
-    for near in g[now]:
-        if visited[near]: continue
-        visited[near]=True
-        DFS(near)
-        visited[near]=False
-        
-DFS(0)
+
+ans=0
+for per in  combinations(range(H + W - 2), H - 1):
+    if tansaku(per):
+        ans+=1
 print(ans)

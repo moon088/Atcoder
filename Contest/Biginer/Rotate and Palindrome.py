@@ -1,4 +1,4 @@
-# E
+# C
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
@@ -34,28 +34,14 @@ def NO(): return print("No")
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
-
-N,M=MAP()
-g = [[] for _ in range(N)]
-for i in range(M):
-    u,v=MAP(); u-=1; v-=1
-    g[u].append(v); g[v].append(u)
-
-ans = 0
-q = [0]
-visited = [False]*N; visited[0]=True
-
-def DFS(now):
-    global ans
-    ans += 1
-    if ans>10**6:
-        print(10**6)
-        exit()
-    for near in g[now]:
-        if visited[near]: continue
-        visited[near]=True
-        DFS(near)
-        visited[near]=False
-        
-DFS(0)
+N,A,B=MAP()
+S=input()
+ans = INF
+for i in range(N):
+    now = S[i:]+S[:i]
+    temp = i*A
+    for j in range(0,(N+1)//2):
+        if now[j]!=now[-(j+1)]:
+            temp += B
+    ans = min(ans, temp)
 print(ans)

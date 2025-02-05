@@ -1,4 +1,4 @@
-# E
+# D
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
@@ -35,27 +35,34 @@ Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
-N,M=MAP()
-g = [[] for _ in range(N)]
-for i in range(M):
-    u,v=MAP(); u-=1; v-=1
-    g[u].append(v); g[v].append(u)
+N=INT()
+d = defaultdict(list)
+visited = defaultdict(bool)
+deg = defaultdict(int)
+for i in range(N):
+    s,t=input().split()
+    d[s].append(t)
+    deg[t]+=1
+    if deg[s]==0:
+        deg[s]=0
+    visited[s]=False
 
-ans = 0
-q = [0]
-visited = [False]*N; visited[0]=True
+q = deque([])
+for i in deg:
+    if deg[i]==0:
+        q.append(i)
 
-def DFS(now):
-    global ans
-    ans += 1
-    if ans>10**6:
-        print(10**6)
+while q:
+    v = q.popleft()
+    visited[v] = True
+    for nv in d[v]:
+        deg[nv] -= 1
+        if deg[nv] == 0:
+            q.append(nv)
+
+for i in visited:
+    if not visited[i]:
+        NO()
         exit()
-    for near in g[now]:
-        if visited[near]: continue
-        visited[near]=True
-        DFS(near)
-        visited[near]=False
+YES()
         
-DFS(0)
-print(ans)

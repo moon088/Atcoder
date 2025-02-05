@@ -35,27 +35,30 @@ Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
-N,M=MAP()
-g = [[] for _ in range(N)]
-for i in range(M):
-    u,v=MAP(); u-=1; v-=1
-    g[u].append(v); g[v].append(u)
+N = INT()
+A = LIST()
+d = [[(INF,INF)]*N for i in range(N)]
 
+for i in range(N):
+    S = input()
+    for j in range(N):
+        if S[j] == "Y":
+            d[i][j] = (1,-(A[i]+A[j]))
+            
+    
+for i in range(N):
+    d[i][i] = (0,-A[i])
 ans = 0
-q = [0]
-visited = [False]*N; visited[0]=True
-
-def DFS(now):
-    global ans
-    ans += 1
-    if ans>10**6:
-        print(10**6)
-        exit()
-    for near in g[now]:
-        if visited[near]: continue
-        visited[near]=True
-        DFS(near)
-        visited[near]=False
-        
-DFS(0)
-print(ans)
+for k in range(N):
+    for i in range(N):
+        for j in range(N):
+            d[i][j] = min(d[i][j],(d[i][k][0]+d[k][j][0],(d[i][k][1]+d[k][j][1]+A[k])))
+Q = INT()
+for _ in range(Q):
+    U,V = MAP()
+    U-=1
+    V-=1
+    if d[U][V] == (INF,INF):
+        print("Impossible")
+    else:
+        print(d[U][V][0],-d[U][V][1])

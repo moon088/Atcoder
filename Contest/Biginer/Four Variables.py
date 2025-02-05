@@ -1,4 +1,4 @@
-# E
+# C
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
@@ -34,28 +34,52 @@ def NO(): return print("No")
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
+class LinearSieve:
+    def __init__(self,maxN):self.sievedList=self.Sieve(maxN);self.maxN=maxN
+    def Sieve(self,R):  #1≦N≦R の最小素因数表を作成する
+        if not isinstance(R,int):return -1
+        if R<=1:return -1
+        Large=[None for i in range(R+1)];Large[:2]=[0,1];Prime=[]
+        for i in range(2,R+1):
+            if Large[i]==None:Large[i]=i;Prime.append(i)
+            for p in Prime:
+                if p*i>R or p>Large[i]:break
+                Large[p*i]=p
+        return Large     
+    def Fact(self,x):  #xを高速素因数分解する
+        if not isinstance(x,int):return -1
+        if len(self.sievedList)<=x:return -1
+        if x==1:return[[1,1]]
+        Ans=[]
+        while 1:
+            if self.sievedList[x]==x:Ans.append(x);break
+            Ans.append(self.sievedList[x]);x//=self.sievedList[x]
+        Key=set(Ans);D={i:0 for i in Key}
+        for i in Ans:D[i]+=1
+        return [(i,D[i]) for i in D]
+    def ALLdiv(self,x):  #約数列挙する
+        L=self.Fact(x);Div=set([1])
+        for i,j in L:
+            NewDiv=set()
+            for d in Div:
+                for k in range(1,j+1):NewDiv.add(d*i**k)
+            Div=Div.union(NewDiv)
+        return Div 
+    def PrimeList(self,x,y):  #x≦P≦y の素数を列挙する
+        x,y=max(0,x),min(y,self.maxN)
+        return [i for i in range(x,y+1) if self.sievedList[i]==i and i>1]
 
-N,M=MAP()
-g = [[] for _ in range(N)]
-for i in range(M):
-    u,v=MAP(); u-=1; v-=1
-    g[u].append(v); g[v].append(u)
 
-ans = 0
-q = [0]
-visited = [False]*N; visited[0]=True
 
-def DFS(now):
-    global ans
-    ans += 1
-    if ans>10**6:
-        print(10**6)
-        exit()
-    for near in g[now]:
-        if visited[near]: continue
-        visited[near]=True
-        DFS(near)
-        visited[near]=False
-        
-DFS(0)
+N=INT()
+E = LinearSieve(N) #構築は O(maxN)-エラトステネスの篩O(NloglogN)よりも早い
+
+ans=0
+for i in range(1,N):
+    x=i; y=N-i
+    fact1 = E.ALLdiv(x)
+    fact2 = E.ALLdiv(y)
+    ans += len(fact1)*len(fact2)
+    #print(x,y,ans)
 print(ans)
+    

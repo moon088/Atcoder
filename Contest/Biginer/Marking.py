@@ -1,7 +1,7 @@
-# E
+# D
 import sys, re
 from collections import deque, defaultdict, Counter
-from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
+from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd,lcm
 from cmath import phase
 from itertools import accumulate, chain, combinations, combinations_with_replacement, permutations, compress, dropwhile, takewhile, groupby, product, starmap
 from functools import cmp_to_key
@@ -35,27 +35,20 @@ Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
-N,M=MAP()
-g = [[] for _ in range(N)]
-for i in range(M):
-    u,v=MAP(); u-=1; v-=1
-    g[u].append(v); g[v].append(u)
-
-ans = 0
-q = [0]
-visited = [False]*N; visited[0]=True
-
-def DFS(now):
-    global ans
-    ans += 1
-    if ans>10**6:
-        print(10**6)
-        exit()
-    for near in g[now]:
-        if visited[near]: continue
-        visited[near]=True
-        DFS(near)
-        visited[near]=False
+T=INT()
+for i in range(T):
+    N,D,K=MAP()
+    K-=1
+    g = gcd(N,D)
+    if g==1:
+        if N<D:
+            D %= N
+        print((D*K)%N)
+        continue
+    else:
+        l = N*D//g
+        t = l//D
+       # print(l,t)
+       # print(f"425{K//t}:{K%t}")
+        print(K//t + ((K%t)*D)%N )
         
-DFS(0)
-print(ans)

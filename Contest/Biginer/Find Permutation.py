@@ -36,26 +36,24 @@ INF = 1 << 60
 
 
 N,M=MAP()
-g = [[] for _ in range(N)]
-for i in range(M):
-    u,v=MAP(); u-=1; v-=1
-    g[u].append(v); g[v].append(u)
+edge = [[] for v in range(N)]
+deg = [0] * N
+for _ in range(M):
+    x,y = MAP()
+    edge[x-1].append(y-1)
+    deg[y-1] += 1
 
-ans = 0
-q = [0]
-visited = [False]*N; visited[0]=True
+deq = deque([v for v in range(N) if deg[v]==0])
+res = [-1] * N
+for i in range(N):
+    v = deq.popleft()
+    if len(deq) > 0:
+        exit(NO())
+    res[v] = i+1
+    for nv in edge[v]:
+        deg[nv] -= 1
+        if deg[nv] == 0:
+            deq.append(nv)
 
-def DFS(now):
-    global ans
-    ans += 1
-    if ans>10**6:
-        print(10**6)
-        exit()
-    for near in g[now]:
-        if visited[near]: continue
-        visited[near]=True
-        DFS(near)
-        visited[near]=False
-        
-DFS(0)
-print(ans)
+YES()
+print(*res)

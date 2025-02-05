@@ -34,28 +34,34 @@ def NO(): return print("No")
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
+N=INT()
+S=[]
+for i in range(N):
+    s=input()
+    S.append(s)
 
-N,M=MAP()
-g = [[] for _ in range(N)]
-for i in range(M):
-    u,v=MAP(); u-=1; v-=1
-    g[u].append(v); g[v].append(u)
 
-ans = 0
-q = [0]
-visited = [False]*N; visited[0]=True
 
-def DFS(now):
-    global ans
-    ans += 1
-    if ans>10**6:
-        print(10**6)
-        exit()
-    for near in g[now]:
-        if visited[near]: continue
-        visited[near]=True
-        DFS(near)
-        visited[near]=False
-        
-DFS(0)
-print(ans)
+sorted_strings = sorted(S)
+index_map = {value: index for index, value in enumerate(sorted_strings)}
+result = [index_map[s] for s in S]
+ans=[0]*N
+for i in range(N-1):
+    S1 = sorted_strings[i]
+    S2 = sorted_strings[i+1]
+    a = 0
+    while a<len(S1) and a<len(S2):
+        if S1[a]==S2[a]:
+            a+=1
+        else:
+            break
+    ans[i] = max(ans[i],a)
+    ans[i+1] = a
+
+fin = [0]*N
+#print(ans)
+for i in range(N):
+    idx = result[i]
+    fin[i] = ans[idx]
+for i in range(N):
+    print(fin[i])

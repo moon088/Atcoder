@@ -35,27 +35,24 @@ Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
-N,M=MAP()
-g = [[] for _ in range(N)]
-for i in range(M):
-    u,v=MAP(); u-=1; v-=1
-    g[u].append(v); g[v].append(u)
-
-ans = 0
-q = [0]
-visited = [False]*N; visited[0]=True
-
-def DFS(now):
-    global ans
-    ans += 1
-    if ans>10**6:
-        print(10**6)
+N=INT()
+A=LIST()
+A.sort()
+ans=0
+now = None
+for i in range(N):
+    #print(i,ans,now)
+    temp = A[i]
+    idx = bisect_left(A, temp*2)
+    if now == idx:
+        now +=1
+    else:
+        now = idx
+    if now!=N:
+        ans+=1
+    else:
+        print(ans)
         exit()
-    for near in g[now]:
-        if visited[near]: continue
-        visited[near]=True
-        DFS(near)
-        visited[near]=False
+    
         
-DFS(0)
 print(ans)

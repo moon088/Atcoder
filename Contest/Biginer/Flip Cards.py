@@ -1,4 +1,4 @@
-# E
+# D
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
@@ -34,28 +34,26 @@ def NO(): return print("No")
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
+MOD=998244353
+N=INT()
+A,B=ZIP(N)
 
-N,M=MAP()
-g = [[] for _ in range(N)]
-for i in range(M):
-    u,v=MAP(); u-=1; v-=1
-    g[u].append(v); g[v].append(u)
+dp = [[0]*2 for _ in range(N)]
 
-ans = 0
-q = [0]
-visited = [False]*N; visited[0]=True
 
-def DFS(now):
-    global ans
-    ans += 1
-    if ans>10**6:
-        print(10**6)
-        exit()
-    for near in g[now]:
-        if visited[near]: continue
-        visited[near]=True
-        DFS(near)
-        visited[near]=False
+for i in range(N):
+    for j in range(2):
+        if i==0:
+            dp[0][j] = 1
+            continue
+        if j==0:
+            dp[i][j] += dp[i-1][0] if A[i]!=A[i-1] else 0
+            dp[i][j] += dp[i-1][1] if A[i]!=B[i-1] else 0
+        else:
+            dp[i][j] += dp[i-1][0] if B[i]!=A[i-1] else 0
+            dp[i][j] += dp[i-1][1] if B[i]!=B[i-1] else 0
+        dp[i][j]%=MOD
         
-DFS(0)
-print(ans)
+
+print((dp[-1][0]+dp[-1][1])%MOD)
+        

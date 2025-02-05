@@ -1,4 +1,4 @@
-# E
+# C
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
@@ -36,26 +36,20 @@ INF = 1 << 60
 
 
 N,M=MAP()
-g = [[] for _ in range(N)]
+S = []
 for i in range(M):
-    u,v=MAP(); u-=1; v-=1
-    g[u].append(v); g[v].append(u)
-
-ans = 0
-q = [0]
-visited = [False]*N; visited[0]=True
-
-def DFS(now):
-    global ans
-    ans += 1
-    if ans>10**6:
-        print(10**6)
-        exit()
-    for near in g[now]:
-        if visited[near]: continue
-        visited[near]=True
-        DFS(near)
-        visited[near]=False
-        
-DFS(0)
+    C=INT()
+    a=LIST()
+    S.append(a)
+ok = set(i for i in range(1,N+1))
+ans=0
+for comb in range(1<<M):
+    temp = set()
+    for j in range(M):
+        if comb>>j &1:
+            for k in S[j]:
+                temp.add(k)
+    if temp==ok:
+        ans+=1
+            
 print(ans)
