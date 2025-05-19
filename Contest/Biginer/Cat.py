@@ -1,10 +1,10 @@
 # B
 import sys, re
 from collections import deque, defaultdict, Counter
-from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
+from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
 from cmath import phase
 from itertools import accumulate, chain, combinations, combinations_with_replacement, permutations, compress, dropwhile, takewhile, groupby, product, starmap
-from functools import cmp_to_key
+from functools import cmp_to_key,lru_cache
 from operator import itemgetter, mul, xor
 from copy import deepcopy
 from string import ascii_lowercase, ascii_uppercase, digits
@@ -12,6 +12,7 @@ from bisect import bisect, bisect_left, insort, insort_left
 from heapq import heappush , heappop
 from functools import reduce, lru_cache
 from sortedcontainers import SortedSet, SortedList, SortedDict
+from decimal import Decimal, ROUND_HALF_UP
 #it is code to make recursion a bit faster
 #Pimport pypyjit
 #pypyjit.set_param("max_unroll_recursion=-1")
@@ -29,20 +30,12 @@ def ZIP(n): return map(list, zip(*(map(int, input().split()) for _ in range(n)))
 def BOARD(H): return [list(input().strip()) for _ in range(H)]
 def BOARD_INT(H): return [list(map(int, input().split())) for _ in range(H)]
 def isInBoard(H,W,y,x): return 0<=y<H and 0<=x<W
+def ROUND_OFF(X,k): return  (X // (10 ** k) + 5) // 10 * 10 ** (k + 1)
 def YES(): return print("Yes")
 def NO(): return print("No")
+alph = 'abcdefghijklmnopqrstuvwxyz'
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
 
 
 N=INT()
-S=input()
-i=0
-while i<N:
-    if i<N-1 and S[i]=="n" and S[i+1]=="a":
-        print("nya", end="")
-        i+=2
-    else:
-        print(S[i],end="")
-        i+=1
-    

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # E
 import sys, re
 from collections import deque, defaultdict, Counter
@@ -91,4 +92,99 @@ for i in range(1,N+1):
 if now[0]==1:
     print(dp[-1][0][0])
 else:
+=======
+# E
+import sys, re
+from collections import deque, defaultdict, Counter
+from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd
+from cmath import phase
+from itertools import accumulate, chain, combinations, combinations_with_replacement, permutations, compress, dropwhile, takewhile, groupby, product, starmap
+from functools import cmp_to_key,lru_cache
+from operator import itemgetter, mul, xor
+from copy import deepcopy
+from string import ascii_lowercase, ascii_uppercase, digits
+from bisect import bisect, bisect_left, insort, insort_left
+from heapq import heappush , heappop
+from functools import reduce, lru_cache
+from sortedcontainers import SortedSet, SortedList, SortedDict
+from decimal import Decimal, ROUND_HALF_UP
+#it is code to make recursion a bit faster
+#Pimport pypyjit
+#pypyjit.set_param("max_unroll_recursion=-1")
+#recursion limit
+sys.setrecursionlimit(10**7)
+def input(): return sys.stdin.readline().strip()
+def list_input(): return list(input())
+def INT(): return int(input())
+def MAP(): return map(int, input().split())
+def LIST(): return list(map(int,  input().split()))
+def LIST_3D(n): return [[LIST() for _ in range(n)] for _ in range(n)] #Axyz is (y*z)*x
+def MIXED_LIST(): return [int(x) if x.isdigit() else x for x in input().split()]
+def TUPLE(): return tuple(map(int, input().split()))
+def ZIP(n): return map(list, zip(*(map(int, input().split()) for _ in range(n))))
+def BOARD(H): return [list(input().strip()) for _ in range(H)]
+def BOARD_INT(H): return [list(map(int, input().split())) for _ in range(H)]
+def isInBoard(H,W,y,x): return 0<=y<H and 0<=x<W
+def ROUND_OFF(X,k): return  (X // (10 ** k) + 5) // 10 * 10 ** (k + 1)
+def YES(): return print("Yes")
+def NO(): return print("No")
+Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
+INF = 1 << 60
+
+
+N=INT()
+A=input()
+dp = [[[INF]*2 for j in range(3**(N-i))] for i in range(N+1)]
+now = []
+for i in range(3**N):
+    if i%3==0:
+        cnt=0
+        
+    if A[i]=="1":
+        dp[0][i][1]=0
+        dp[0][i][0]=1
+        cnt+=1
+    else:
+        dp[0][i][1]=1
+        dp[0][i][0]=0
+    if i%3==2:
+        if cnt>=2:
+            now.append(1)
+        else:
+            now.append(0)
+        cnt=0
+
+
+for i in range(1,N+1):
+   # print(dp[i-1], now)
+    newnow = []
+    for j in range(3**(N-i)):
+        if j%3==0:
+            cnt=0
+
+        if now[j]==1: 
+            cnt+=1
+        if j%3==2:
+            if cnt>=2:
+                newnow.append(1)
+            else:
+                newnow.append(0)
+            cnt=0
+        for k in range(2):
+                if now[j]==k:
+                    dp[i][j][k]  = 0
+                else:
+                    dp[i][j][k] = min(dp[i-1][3*j][k]+dp[i-1][3*j+1][k]+dp[i-1][3*j+2][k],
+                                      dp[i-1][3*j][(k+1)%2]+dp[i-1][3*j+1][k]+dp[i-1][3*j+2][k], 
+                                      dp[i-1][3*j][k]+dp[i-1][3*j+1][(k+1)%2]+dp[i-1][3*j+2][k],
+                                      dp[i-1][3*j][k]+dp[i-1][3*j+1][k]+dp[i-1][3*j+2][(k+1)%2])
+                    
+    if i!=N:    
+        now = newnow
+#print(dp,newnow,now)
+
+if now[0]==1:
+    print(dp[-1][0][0])
+else:
+>>>>>>> 5a60e3f (Sync local Atcoder directory)
     print(dp[-1][0][1])
