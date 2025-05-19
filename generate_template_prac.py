@@ -35,4 +35,4 @@ for filename, comment in zip(files, comments):
     with open(output_path, 'w') as new_file:
         new_file.write(f"{comment}\n{template_content}")
     print(f"Generated {output_path}")
->>>>>>> 5a60e3f (Sync local Atcoder directory)
+
