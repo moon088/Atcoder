@@ -1,4 +1,4 @@
-# C
+# c
 import sys, re
 from collections import deque, defaultdict, Counter
 from math import ceil, floor, sqrt, hypot, factorial, pi, sin, cos, tan, asin, acos, atan, atan2, radians, degrees, log2, gcd, prod
@@ -37,44 +37,3 @@ def NO(): return print("No")
 alph = 'abcdefghijklmnopqrstuvwxyz'
 Dxy = [(1,0),(-1,0),(0,1),(0,-1)]
 INF = 1 << 60
-
-
-N=INT()
-A=LIST()
-B = []
-for i in range(N-1):
-    if A[i]<A[i+1]:
-        B.append("<")
-    elif A[i]==A[i+1]:
-        B.append("=")
-    else:
-        B.append(">")
-
-ans = 0
-left = 0
-right=1
-up = False; down = False
-for left in range(N-3):
-   # print(left, right, up, down, ans)
-    if left>=right: right = left
-    if B[left-1]=="<" and B[left]==">": up = False
-    if B[left-1]==">"and B[left]=="<": down = False
-    if B[left]!="<": continue
-    if (right-left+1)>=4 and B[left]=="<" and down and up:
-            ans += 1
-
-    while right <N-1:
-       # print(left, right, up, down, ans)
-        kigou = B[right]
-        if (right-left+1)>=2: 
-            if B[right-1]=="<" and B[right]==">":
-                if up: break
-                up = True
-            if B[right-1]==">"and B[right]=="<":
-                if down: break
-                down = True
-        right+=1 
-        
-        if (right-left+1)>=4 and B[left]=="<" and down and up:
-            ans += 1
-print(ans)
